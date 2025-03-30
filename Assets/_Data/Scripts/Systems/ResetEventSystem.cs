@@ -9,8 +9,8 @@ partial struct ResetEventSystem : ISystem
     {
         foreach (RefRW<Selected> selected in SystemAPI.Query<RefRW<Selected>>().WithPresent<Selected>())
         {
-            selected.ValueRW.OnSelected = true;
-            selected.ValueRW.OnDeselected = true;
+            selected.ValueRW.OnSelected = false;
+            selected.ValueRW.OnDeselected = false;
         }
     }
 }

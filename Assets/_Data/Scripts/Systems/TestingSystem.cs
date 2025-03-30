@@ -5,28 +5,16 @@ using UnityEngine;
 
 partial struct TestingSystem : ISystem
 {
-
-
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
-        /*
-        int unitCount = 0;
-        foreach ((
-            RefRW<LocalTransform> localTransform,
-            RefRO<UnitMover> unitMover
-            )
-            in SystemAPI.Query<
-                RefRW<LocalTransform>,
-                RefRO<UnitMover>>().WithPresent<Selected>())
-        {
+        // int unitCount = 0;
+        // foreach (RefRO<Zombie> unit in SystemAPI.Query<RefRO<Zombie>>())
+        // {
+        //     unitCount++;
+        // }
 
-            unitCount++;
-
-        }
-
-        Debug.Log(unitCount);
-    */
+        // Debug.Log(unitCount);
     }
 
 }
