@@ -7,7 +7,6 @@ using UnityEngine;
 
 partial struct FindTargetSystem : ISystem
 {
-    [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
 
@@ -46,10 +45,17 @@ partial struct FindTargetSystem : ISystem
             {
                 foreach (DistanceHit distanceHit in distanceHitList)
                 {
+                    // Debug.Log(distanceHit.Entity + " " + Time.frameCount);
+                    if (!SystemAPI.Exists(distanceHit.Entity) || !SystemAPI.HasComponent<Unit>(distanceHit.Entity))
+                    {
+                        continue;
+                    }
                     Unit targetUnit = SystemAPI.GetComponent<Unit>(distanceHit.Entity);
                     if (targetUnit.faction == findTarget.ValueRO.targetFaction)
                     {
+                        // Valid target
                         target.ValueRW.targetEntity = distanceHit.Entity;
+                        break;
                     }
                 }
             }
