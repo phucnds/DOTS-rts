@@ -20,7 +20,7 @@ partial struct ShootAttackSystem : ISystem
                 RefRW<LocalTransform>,
                 RefRW<ShootAttack>,
                 RefRO<Target>,
-                RefRW<UnitMover>>())
+                RefRW<UnitMover>>().WithDisabled<MoveOverride>())
         {
             if (target.ValueRO.targetEntity == Entity.Null)
             {
@@ -67,6 +67,10 @@ partial struct ShootAttackSystem : ISystem
             
             RefRW<Target> bulletTarget = SystemAPI.GetComponentRW<Target>(bulletEntity);
             bulletTarget.ValueRW.targetEntity = target.ValueRO.targetEntity;
+            
+            shootAttack.ValueRW.onShoot.isTrigger = true;
+            shootAttack.ValueRW.onShoot.shootFromPosition = bulletSpawnWorldPosition;
+            
         }
     }
 }

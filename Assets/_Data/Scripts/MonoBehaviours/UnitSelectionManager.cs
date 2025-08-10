@@ -101,14 +101,13 @@ public class UnitSelectionManager : MonoBehaviour
 
                 if (collisionWorld.CastRay(raycastInput, out Unity.Physics.RaycastHit rayCastHit))
                 {
-                    if (entityManager.HasComponent<Unit>(rayCastHit.Entity) && entityManager.HasComponent<Selected>(rayCastHit.Entity))
+                    if (entityManager.HasComponent<Unit>(rayCastHit.Entity))
                     {
                         entityManager.SetComponentEnabled<Selected>(rayCastHit.Entity, true);
 
                         Selected selected = entityManager.GetComponentData<Selected>(rayCastHit.Entity);
                         selected.OnSelected = true;
                         entityManager.SetComponentData(rayCastHit.Entity, selected);
-
                     }
                 }
             }
@@ -118,23 +117,64 @@ public class UnitSelectionManager : MonoBehaviour
 
         if (Input.GetMouseButtonDown(1))
         {
-            Vector3 mousePosition = MouseWorldPosition.Instance.GetPosition();
+            Vector3 mouseWorldPosition = MouseWorldPosition.Instance.GetPosition();
 
             EntityManager entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
-            EntityQuery entityQuery = new EntityQueryBuilder(Allocator.Temp).WithAll<UnitMover, Selected>().Build(entityManager);
+            
+            // First, get all selected entities
+            using var selectedQuery = new EntityQueryBuilder(Allocator.Temp)
+                .WithAll<Selected>()
+                .Build(entityManager);
 
-            NativeArray<Entity> entityArray = entityQuery.ToEntityArray(Allocator.Temp);
-            NativeArray<UnitMover> unitMoverArray = entityQuery.ToComponentDataArray<UnitMover>(Allocator.Temp);
-            NativeArray<float3> movePositionArray = GenerateMovePositionArray(mousePosition, entityArray.Length);
-
-            for (int i = 0; i < unitMoverArray.Length; i++)
+            using var selectedEntities = selectedQuery.ToEntityArray(Allocator.Temp);
+            
+            if (selectedEntities.Length == 0)
             {
-                UnitMover unitMover = unitMoverArray[i];
-                unitMover.targetPosition = movePositionArray[i];
-                unitMoverArray[i] = unitMover;
+                Debug.LogWarning("No selected entities found!");
+                return;
             }
-
-            entityQuery.CopyFromComponentDataArray(unitMoverArray);
+            
+            Debug.Log($"Found {selectedEntities.Length} selected entities");
+            
+            // Filter entities that have MoveOverride component
+            int validEntityCount = 0;
+            for (int i = 0; i < selectedEntities.Length; i++)
+            {
+                if (entityManager.HasComponent<MoveOverride>(selectedEntities[i]))
+                {
+                    validEntityCount++;
+                }
+            }
+            
+            if (validEntityCount == 0)
+            {
+                Debug.LogWarning("No selected entities have MoveOverride component!");
+                return;
+            }
+            
+            Debug.Log($"Found {validEntityCount} entities with MoveOverride component");
+            
+            // Generate positions for all valid entities
+            using var movePositionArray = GenerateMovePositionArray(mouseWorldPosition, validEntityCount);
+            
+            int positionIndex = 0;
+            for (int i = 0; i < selectedEntities.Length; i++)
+            {
+                if (entityManager.HasComponent<MoveOverride>(selectedEntities[i]))
+                {
+                    // Enable MoveOverride component
+                    entityManager.SetComponentEnabled<MoveOverride>(selectedEntities[i], true);
+                    
+                    // Update target position
+                    MoveOverride moveOverride = entityManager.GetComponentData<MoveOverride>(selectedEntities[i]);
+                    moveOverride.targetPosition = movePositionArray[positionIndex];
+                    entityManager.SetComponentData(selectedEntities[i], moveOverride);
+                    
+                    positionIndex++;
+                }
+            }
+            
+            Debug.Log($"Moved {validEntityCount} units to position {mouseWorldPosition}");
         }
     }
 

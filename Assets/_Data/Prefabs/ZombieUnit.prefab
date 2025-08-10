@@ -83,6 +83,14 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 85cd5279f313d294c8d4eb59ece3cb5b, type: 2}
+    - target: {fileID: 4643520728827569102, guid: f670bad2eda4c7d4885fb18f7dc4726c, type: 3}
+      propertyPath: healthAmount
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4643520728827569102, guid: f670bad2eda4c7d4885fb18f7dc4726c, type: 3}
+      propertyPath: healthAmountMax
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 5245974108004045773, guid: f670bad2eda4c7d4885fb18f7dc4726c, type: 3}
       propertyPath: m_Name
       value: ZombieUnit
@@ -93,7 +101,11 @@ PrefabInstance:
       objectReference: {fileID: 4300000, guid: b6815ab17cf31b645b33d7e67d00ce14, type: 2}
     - target: {fileID: 7635292268179363152, guid: f670bad2eda4c7d4885fb18f7dc4726c, type: 3}
       propertyPath: range
-      value: 5
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7635292268179363152, guid: f670bad2eda4c7d4885fb18f7dc4726c, type: 3}
+      propertyPath: timerMax
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 7635292268179363152, guid: f670bad2eda4c7d4885fb18f7dc4726c, type: 3}
       propertyPath: targetFaction
@@ -116,6 +128,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5245974108004045773, guid: f670bad2eda4c7d4885fb18f7dc4726c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3966839527264336885}
+    - targetCorrespondingSourceObject: {fileID: 5245974108004045773, guid: f670bad2eda4c7d4885fb18f7dc4726c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4428283920056836215}
   m_SourcePrefab: {fileID: 100100000, guid: f670bad2eda4c7d4885fb18f7dc4726c, type: 3}
 --- !u!4 &2713013090225543299 stripped
 Transform:
@@ -152,3 +167,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShootVictimAuthoring
   hitPositionTransform: {fileID: 9175139142196873033}
+--- !u!114 &4428283920056836215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8456442266208707752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8561d0e4920f0d4694e75d230f4c508, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MeleeAttackAuthoring
+  timerMax: 0.5
+  damageAmount: 10
+  colliderSize: 0
+  attackDistance: 2

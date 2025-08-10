@@ -190,7 +190,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7879338388946813784, guid: 8f5646818f3e90e4ba6e931e1996230d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -9
+      value: 6.95
       objectReference: {fileID: 0}
     - target: {fileID: 7879338388946813784, guid: 8f5646818f3e90e4ba6e931e1996230d, type: 3}
       propertyPath: m_LocalPosition.y
@@ -393,6 +393,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EntitiesReferencesAuthoring
   bulletPrefabGameObject: {fileID: 5351159045047542954, guid: 27618d0859d120e449eb2a60c046d01f, type: 3}
   zombiePrefabGameObject: {fileID: 8456442266208707752, guid: 4faf40927e8bb5e40ba125aa92bb124a, type: 3}
+  shootLightPrefabGameObject: {fileID: 4103880780353586284, guid: 866213be5f9f012418c21f6041b4a5d3, type: 3}
 --- !u!1 &1518315664
 GameObject:
   m_ObjectHideFlags: 0
